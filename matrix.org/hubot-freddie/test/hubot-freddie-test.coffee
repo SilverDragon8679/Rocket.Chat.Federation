@@ -15,7 +15,3 @@ describe 'freddie', ->
 
 	it 'registers a respond listener - list projects', ->
 		expect(@robot.respond).to.have.been.calledWith(/projects/i)
-
-
-
-

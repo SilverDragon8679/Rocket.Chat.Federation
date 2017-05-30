@@ -7,7 +7,7 @@ const RocketChatRoomID = process.env['ROCKETCHAT_ROOM_ID'] || 'WIJbAHNEdgMNavYM5
 const HomeServerSenderLocal = process.env['HOMESERVER_SENDER_LOCAL'] || 'rcbot';
 const IncomingPort = process.env['INCOMING_PORT']  || 8089;
 const RocketChatUserPrefix = process.env['ROCKETCHAT_USER_PREFIX'] || '@rocketchat_';  // user name prefix for Rocket.Chat users
-const WritableConfigPath = process.env['WRITABLE_CONFIG_PATH']  || './config';  // path of directory to write configuarion file
+const WritableConfigPath = process.env['WRITABLE_CONFIG_PATH']  || '/tmp';  // path of directory to write configuarion file
 
 const bridgeHelpers = require('./bridge')(HomeServerDomain, RocketChatUserPrefix, HomeServerURL)
 const handleMatrixMessage = bridgeHelpers.handleMatrixMessage;
@@ -27,7 +27,7 @@ module.exports = function(robot) {
     // messages coming from Rocket.Chat room(s) monitored
     robot.hear(/.*/, (msg) => {
       const room =  ROOM_MAP.findIndex((ids) => msg.message.room == ids[0])
-      if(room < 0 ) { return }
+      if(room < 0 ) { return ":/"}
       return handleRocketChatMessage(msg, ROOM_MAP[room][1], matrixBridge)
     })
     ROOM_MAP.forEach(ids => console.log(`Mapping Rocketchat(${ ids[0] }) <==> Matrix(${ ids[1] })`))
